@@ -12,12 +12,12 @@
     <header>
         <!-- Логотип та назва курсу тут додати -->
         <!-- Логотиn -->
-        <div class="header-logo">
-            <img src="logo.png" alt="Логотип курсу з фотографії" class="header-logo-img">
-            <span class="header-logo-text">EmberLens</span>
+        <div class="header__logo">
+            <img src="logo.png" alt="Логотип курсу з фотографії" class="header__logo-img">
+            <span class="header__logo-text">EmberLens</span>
         </div>
         
-        <nav class="nav-menu">
+        <nav class="nav__menu">
                 <a href="index.html">Головна</a>
                 <a href="about.html">Про курс</a>
                 <a href="program.html">Програма</a>
@@ -29,10 +29,34 @@
     </header>
     
     <main>
-        <section class="main-picture-1">
-            <h1>Ignite your <br> vision</h1>
-            <p>Пориньте у захоплюючий світ фотографії з нашим онлайн-курсом. Від основ до професійних технік - ми допоможемо вам розкрити свій творчий потенціал та створювати неймовірні знімки.</p>
-            <a href="about.html" class="main-picture-1-button">Дізнатися більше</a>
+        <section class="main__section-1">
+            <div class="main__content-text">
+                <span class="main__slogan">Ignite your <br> vision</span>
+                <p>Пориньте у захоплюючий світ фотографії з нашим онлайн-курсом. Від основ до професійних технік - ми допоможемо вам розкрити свій творчий потенціал та створювати неймовірні знімки.</p>
+                <!-- <a href="about.html" class="main-picture-1-button">Дізнатися більше</a> -->
+            </div>
+            <picture>
+                <source srcset="girl_black_background.png" type="image/png">
+                <img src="girl_black_background.png" alt="Жінка у світлі на чорному тлі" class="main__picture-1">
+            </picture>
+        </section>
+
+        <section class="main__about-us">
+            <div class="main__about-us-container">
+                <h2 class="main__about-us-title">The Art of Seeing</h2>
+                
+                <div class="main__about-us-text">
+                    <p>Ми віримо, що справжня фотографія народжується задовго до того, як ви натискаєте на спуск затвора. Вона починається з вашого унікального погляду на світ. Технічні налаштування, діафрагма та витримка — це лише базовий інструментарій, який ми допоможемо вам опанувати досконало.</p>
+                    <p>Цей курс створений для тих, хто прагне вийти за межі автоматичного режиму та знайти свій впізнаваний авторський стиль. Незалежно від того, знімаєте ви на професійну студійну камеру чи просто хочете створювати шедеври, ви отримаєте знання, які зроблять кожну вашу роботу усвідомленою.</p>
+                </div>
+                <hr class="main__about-us-divider">
+            </div>
+            
+        </section>
+
+        <section class="main__about-course">
+            <h2>Тренуємо найкращих</h2>
+
         </section>
     </main>
 
