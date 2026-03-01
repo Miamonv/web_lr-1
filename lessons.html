@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta aria-describedby="description" content="Онлайн-курс з фотографії для початківців та професіоналів. Вивчайте основи композиції, експозиції, обробки зображень та багато іншого. Розкрийте свій творчий потенціал з нашим курсом!"> -->
+    <title>Онлайн-курс з фотографії</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <!-- логотиn + підпис -->
+        <div class="header__logo">
+            <img src="logo.png" alt="Логотип курсу з фотографії" class="header__logo-img">
+            <span class="header__logo-text">EmberLens</span>
+        </div>
+        
+        <nav class="nav__menu">
+                <a href="index.html">Головна</a>
+                <a href="lessons.html">Програма</a>
+                <a href="gallery.html">Галерея</a>
+                <a href="progress.html">Мій прогрес</a>
+        </nav>
+
+        <button class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <main class="lessons-main">
+        <div class="lessons-container">
+            <h1 class="page-title">Програма <span class="gradient-text">Навчання</span></h1>
+            <p class="page-subtitle">Переглядайте відео, читайте матеріали та виконуйте завдання.</p>
+
+            <section class="module-section" id="module-1">
+                <h2 class="module-title">Модуль 1: Основи композиції</h2>
+                
+                <div class="lessons-grid">
+                    
+                    <div class="lesson-card">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/watch?v=KXeD4Bs3lno" title="Урок 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-info">
+                            <span class="lesson-duration">⏱️ 7 хв</span>
+                            <h3>Урок 1.1: Золотий перетин / Спіраль Фібоначчі</h3>
+                            <p>Ви коли-небудь замислювалися, чому деякі кінокадри виглядають неймовірно гармонійно та привабливо? Відповідь криється в золотому перетині та його тісному зв'язку зі спіраллю Фібоначчі! У цьому відео ми розкриємо математичну красу, що лежить в основі композиції у кіно. Ви дізнаєтеся, як виникла спіраль Фібоначчі, чому її вважають "божественною пропорцією" та як режисери використовують її для створення візуально захоплюючих сцен. На конкретних прикладах покажемо, як правило золотого перетину майстерно застосовується для підсилення емоційного впливу та залучення глядача. </p>
+                        </div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="video-container">
+                            <iframe src="youtube.com/watch?v=E22nU7mYIuM&pp=ygU00LrRg9GA0YHQuCDRhNC-0YLQvtCz0YDQsNGE0LAg0YPQutGA0LDRl9C90YHRjNC60L7Rjg%3D%3D" title="Урок 2" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-info">
+                            <span class="lesson-duration"> 30 хв</span>
+                            <h3>Урок 1.2: 5 Принципів успішного фотографа</h3>
+                            <p>Дуже важливі правила, які має засвоїти і використовувати у своїй діяльності кожен фотограф, який хоче досягти успіху у професіїї "ФОТОГРАФ"</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="module-section" id="module-2">
+                <h2 class="module-title">Модуль 2: Студійне світло</h2>
+                <div class="lessons-grid">
+                    <div class="lesson-card">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/watch?v=Hw1xNeDRonE" title="Урок 3" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="lesson-info">
+                            <span class="lesson-duration">⏱️ 6 хв</span>
+                            <h3>Урок 2.1: Заповнений кадр</h3>
+                            <p>Аналіз яскравих прикладів використання «заповненого кадру» у культових кінофільмах. Практичні поради, як використовувати правило «Заповнений кадр» у ваших власних відео, щоб керувати увагою аудиторії та створювати сильний візуальний вплив.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="module-section" id="module-3">
+                <h2 class="module-title">Модуль 3: Комерційна ретуш</h2>
+                <p class="locked-text">🔒 Цей модуль відкриється після проходження попередніх.</p>
+            </section>
+
+        </div>
+    </main>
+
+
+    <footer>
+        <section class="contacts">
+            <div class="social-media">
+                <a href="#" target="_blank"><img src="facebook1.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="Insta.webp" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="twitter.webp" alt="Twitter"></a>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Контакти</h4>
+                <ul class="footer-list">
+                    <li><strong>Mail:</strong><a href="mailto: hello@emberlens.com"> hello@emberlens.com</a></li>
+                    <li><strong>Phone:</strong><a href="tel: +380 99 123 45 67"> +380 99 123 45 67</a></li>
+                    <li><strong>Opening Hours:</strong> 10:00 - 18:00</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Локація</h4>
+                <ul class="footer-list footer-list-bullets">
+                    <li>Вул. Фотографічна, 12</li>
+                    <li>м. Київ, Україна</li>
+                    <li>Студія "Світло"</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Сайт</h4>
+                <ul class="footer-list footer-links">
+                    <li><a href="index.html">➔ Про курс</a></li>
+                    <li><a href="gallery.html">➔ Галерея</a></li>
+                    <li><a href="progress.html">➔ Мій прогрес</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="copyright">
+            <p>&copy; 2026 EmberLens. Всі права захищені.</p>
+        </section>
+    </footer>
+
+    <script>
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.nav__menu');
+        const overlay = document.getElementById('overlay');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+    
+</body>
+</html>

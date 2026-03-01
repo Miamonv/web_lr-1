@@ -162,7 +162,7 @@ header {
     padding: 80px 5%;
     gap: 50px;
     background-color: #06050a;
-    border-bottom: #1a1a1a 3px solid;
+    border-bottom: #b7b7b7 3px solid;
 }
 
 .skills-image img {
@@ -512,4 +512,106 @@ footer {
     100% {
         width: var(--progress);
     }
+}
+
+/*сторінка уроків*/
+.lessons-main {
+    background-color: #0a0809;
+    padding: 60px 5% 100px;
+    min-height: 70vh;
+    border-bottom: #b7b7b7 3px solid;
+}
+
+.page-title {
+    font-size: 48px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #999999;
+    font-family: sans-serif;
+    margin-bottom: 60px;
+}
+
+.module-section {
+    margin-bottom: 80px;
+    /* Додаємо відступ зверху для якорів, щоб хедер не перекривав заголовок при переході */
+    scroll-margin-top: 100px; 
+}
+
+.module-title {
+    font-size: 32px;
+    color: #EAEAEA;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2B2B2B;
+}
+
+.locked-text {
+    color: #666;
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.lesson-card {
+    background-color: #1a1a1a;
+    border: 1px solid #2B2B2B;
+    border-radius: 10px;
+    overflow: hidden; /* Щоб відео не вилазило за заокруглені кути */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    border-color: #F28B22;
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Автоматично тримає пропорцію відео */
+    background-color: #000;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.lesson-info {
+    padding: 25px;
+}
+
+.lesson-duration {
+    font-family: sans-serif;
+    font-size: 12px;
+    color: #F28B22;
+    background-color: rgba(242, 139, 34, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.lesson-info h3 {
+    color: #FFFFFF;
+    font-size: 20px;
+    margin: 15px 0 10px 0;
+    line-height: 1.3;
+}
+
+.lesson-info p {
+    color: #888888;
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
 }
