@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мій прогрес | EmberLens</title> <link rel="stylesheet" href="styles.css"> </head>
+
+<body>
+    <header>
+        <div class="header__logo">
+            <img src="logo.png" alt="Логотип" class="header__logo-img">
+            <span class="header__logo-text">EmberLens</span>
+        </div>
+        
+        <nav class="nav__menu">
+                <a href="index.html">Головна</a>
+                <a href="lessons.html">Програма</a>
+                <a href="gallery.html">Галерея</a>
+                <a href="progress.html">Мій прогрес</a>
+        </nav>
+
+        <button class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <main class="progress-main">
+        <div class="progress-container">
+            <h1 class="progress-title">Мій <span class="gradient-text">Прогрес</span></h1>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <h3>33%</h3>
+                    <p>Курсу пройдено</p>
+                </div>
+                <div class="stat-card">
+                    <h3>5</h3>
+                    <p>Годин практики</p>
+                </div>
+                <div class="stat-card">
+                    <h3>1/3</h3>
+                    <p>Модулів закрито</p>
+                </div>
+            </section>
+
+            <h2 class="modules-title">Програма навчання</h2>
+
+            <section class="modules-grid">
+                <div class="module-card completed">
+                    <div class="module-header">
+                        <span class="module-status">✔️ Пройдено</span>
+                        <h4>Модуль 1: Основи композиції</h4>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="--progress: 100%;"></div>
+                    </div>
+                </div>
+
+                <div class="module-card in-progress">
+                    <div class="module-header">
+                        <span class="module-status">⏳ У процесі</span>
+                        <h4>Модуль 2: Студійне світло</h4>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="--progress: 60%;"></div>
+                    </div>
+                </div>
+
+                <div class="module-card locked">
+                    <div class="module-header">
+                        <span class="module-status">🔒 Заблоковано</span>
+                        <h4>Модуль 3: Комерційна ретуш</h4>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="--progress: 0%;"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <section class="contacts">
+            <div class="social-media">
+                <a href="#" target="_blank"><img src="facebook1.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="Insta.webp" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="twitter.webp" alt="Twitter"></a>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Контакти</h4>
+                <ul class="footer-list">
+                    <li><strong>Mail:</strong><a href="mailto: hello@emberlens.com"> hello@emberlens.com</a></li>
+                    <li><strong>Phone:</strong><a href="tel: +380 99 123 45 67"> +380 99 123 45 67</a></li>
+                    <li><strong>Opening Hours:</strong> 10:00 - 18:00</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Локація</h4>
+                <ul class="footer-list footer-list-bullets">
+                    <li>Вул. Фотографічна, 12</li>
+                    <li>м. Київ, Україна</li>
+                    <li>Студія "Світло"</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Сайт</h4>
+                <ul class="footer-list footer-links">
+                    <li><a href="index.html">➔ Про курс</a></li>
+                    <li><a href="gallery.html">➔ Галерея</a></li>
+                    <li><a href="progress.html">➔ Мій прогрес</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="copyright">
+            <p>&copy; 2026 EmberLens. Всі права захищені.</p>
+        </section>
+    </footer>
+
+    <script>
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.nav__menu');
+        const overlay = document.getElementById('overlay');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>
