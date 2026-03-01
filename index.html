@@ -18,7 +18,7 @@
         
         <nav class="nav__menu">
                 <a href="index.html">Головна</a>
-                <a href="program.html">Програма</a>
+                <a href="lessons.html">Програма</a>
                 <a href="gallery.html">Галерея</a>
                 <a href="progress.html">Мій прогрес</a>
         </nav>
@@ -124,9 +124,9 @@
             <div class="footer-column">
                 <h4 class="footer-heading">Сайт</h4>
                 <ul class="footer-list footer-links">
-                    <li><a href="#">➔ Про курс</a></li>
-                    <li><a href="#">➔ Галерея</a></li>
-                    <li><a href="#">➔ Мій прогрес</a></li>
+                    <li><a href="index.html">➔ Про курс</a></li>
+                    <li><a href="gallery.html">➔ Галерея</a></li>
+                    <li><a href="progress.html">➔ Мій прогрес</a></li>
                 </ul>
             </div>
         </section>
@@ -135,5 +135,22 @@
             <p>&copy; 2026 EmberLens. Всі права захищені.</p>
         </section>
     </footer>
+
+    <script>
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu = document.querySelector('.nav__menu');
+        const overlay = document.getElementById('overlay');
+
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+
 </body>
 </html>

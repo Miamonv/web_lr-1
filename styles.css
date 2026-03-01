@@ -1,3 +1,4 @@
+/* головна сторінка */
 * {
     box-sizing: border-box;
     font-family: 'Georgia', serif;
@@ -385,5 +386,130 @@ footer {
     .skills-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+}
+
+/* сторінка прогресу */
+.progress-main {
+    background-color: #0a0809;
+    padding: 60px 5% 100px;
+    /* min-height: 70vh; Щоб футер не прилипав, якщо контенту мало */
+    border-bottom: #b7b7b7 3px solid;
+}
+
+.progress-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.progress-title {
+    font-size: 48px;
+    margin-bottom: 50px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.stat-card {
+    background-color: #1a1a1a;
+    border: 1px solid #2B2B2B;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #F28B22;
+}
+
+.stat-card h3 {
+    /* font-family: sans-serif; */
+    font-size: 48px;
+    color: #F28B22;
+    margin: 0 0 10px 0;
+}
+
+.stat-card p {
+    font-family: "Georgia", sans-serif;
+    color: #999999;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.modules-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.module-card {
+    background-color: #1a1a1a;
+    border: 1px solid #2B2B2B;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.module-header h4 {
+    font-size: 22px;
+    margin: 20px 0;
+    color: #EAEAEA;
+    line-height: 1.4;
+}
+
+.module-status {
+    /* font-family: sans-serif; */
+    font-size: 12px;
+    padding: 6px 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* налаштування кольорів залежно від статусу */
+.completed .module-status { background-color: rgba(242, 139, 34, 0.15); color: #F28B22; }
+.in-progress .module-status { background-color: rgba(255, 255, 255, 0.1); color: #FFFFFF; }
+.locked .module-status { border: 1px solid #444; color: #666; }
+.locked h4 { color: #666; } /* для заблокованого модуля */
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background-color: #2B2B2B;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #f26b22, #f4d57a); 
+    width: var(--progress);
+    animation: fillBar 3s ease-out forwards;
+}
+
+/*анімація для заповнення прогресу градієнтом*/
+@keyframes fillBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: var(--progress);
     }
 }
