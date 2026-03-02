@@ -62,7 +62,7 @@
 
                 <a href="lessons.html#module-2" class="module-card in-progress" style="text-decoration: none;">
                     <div class="module-header">
-                        <span class="module-status">⏳ У процесі</span>
+                        <span class="module-status"> У процесі</span>
                         <h4>Модуль 2: Студійне світло</h4>
                     </div>
                     <div class="progress-bar-container">
@@ -72,7 +72,7 @@
 
                 <a href="lessons.html#module-3" class="module-card locked" style="text-decoration: none;">
                     <div class="module-header">
-                        <span class="module-status">🔒 Заблоковано</span>
+                        <span class="module-status"> Заблоковано</span>
                         <h4>Модуль 3: Комерційна ретуш</h4>
                     </div>
                     <d class="progress-bar-container">
@@ -112,9 +112,9 @@
             <div class="footer-column">
                 <h4 class="footer-heading">Сайт</h4>
                 <ul class="footer-list footer-links">
-                    <li><a href="index.html">➔ Про курс</a></li>
-                    <li><a href="gallery.html">➔ Галерея</a></li>
-                    <li><a href="progress.html">➔ Мій прогрес</a></li>
+                    <li><a href="index.html">-> Про курс</a></li>
+                    <li><a href="gallery.html">-> Галерея</a></li>
+                    <li><a href="progress.html">-> Мій прогрес</a></li>
                 </ul>
             </div>
         </section>
@@ -123,22 +123,6 @@
             <p>&copy; 2026 EmberLens. Всі права захищені.</p>
         </section>
     </footer>
-
-    <script>
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const navMenu = document.querySelector('.nav__menu');
-        const overlay = document.getElementById('overlay');
-
-        hamburgerBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-
-        overlay.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-    </script>
 
 </body>
 </html>

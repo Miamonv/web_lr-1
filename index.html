@@ -136,21 +136,5 @@
         </section>
     </footer>
 
-    <script>
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const navMenu = document.querySelector('.nav__menu');
-        const overlay = document.getElementById('overlay');
-
-        hamburgerBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
-
-        overlay.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-    </script>
-
 </body>
 </html>
