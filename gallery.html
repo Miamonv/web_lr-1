@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta aria-describedby="description" content="Онлайн-курс з фотографії для початківців та професіоналів. Вивчайте основи композиції, експозиції, обробки зображень та багато іншого. Розкрийте свій творчий потенціал з нашим курсом!"> -->
+    <title>Онлайн-курс з фотографії</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <!-- логотиn + підпис -->
+        <div class="header__logo">
+            <img src="logo.png" alt="Логотип курсу з фотографії" class="header__logo-img">
+            <span class="header__logo-text">EmberLens</span>
+        </div>
+        
+        <nav class="nav__menu">
+                <a href="index.html">Головна</a>
+                <a href="lessons.html">Програма</a>
+                <a href="gallery.html">Галерея</a>
+                <a href="progress.html">Мій прогрес</a>
+        </nav>
+
+        <button class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <main class="gallery-main">
+        <div class="gallery-container">
+            <h1 class="gallery-title">Галерея <span class="gradient-text">Робіт</span></h1>
+            <p class="gallery-subtitle">Діліться своїми шедеврами та надихайтеся роботами інших студентів.</p>
+
+            <section class="upload-section">
+                <div class="upload-box">
+                    <h3>Завантажити нове фото</h3>
+                    <p>Перетягніть файл сюди або натисніть кнопку нижче (JPG, PNG)</p>
+                    
+                    <label class="upload-btn">
+                        Обрати файл
+                        <input type="file" accept="image/*" style="display: none;">
+                    </label>
+                </div>
+            </section>
+
+            <section class="gallery-display">
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop" alt="Фото студента 1">
+                        <div class="photo-overlay"><span>❤️ 124</span></div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop" alt="Фото студента 2">
+                        <div class="photo-overlay"><span>❤️ 89</span></div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop" alt="Фото студента 3">
+                        <div class="photo-overlay"><span>❤️ 205</span></div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Фото студента 4">
+                        <div class="photo-overlay"><span>❤️ 56</span></div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1506744626753-1fa7603a4b69?q=80&w=800&auto=format&fit=crop" alt="Фото студента 5">
+                        <div class="photo-overlay"><span>❤️ 312</span></div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800&auto=format&fit=crop" alt="Фото студента 6">
+                        <div class="photo-overlay"><span>❤️ 42</span></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <footer>
+        <section class="contacts">
+            <div class="social-media">
+                <a href="#" target="_blank"><img src="facebook1.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="Insta.webp" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="twitter.webp" alt="Twitter"></a>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Контакти</h4>
+                <ul class="footer-list">
+                    <li><strong>Mail:</strong><a href="mailto: hello@emberlens.com"> hello@emberlens.com</a></li>
+                    <li><strong>Phone:</strong><a href="tel: +380 99 123 45 67"> +380 99 123 45 67</a></li>
+                    <li><strong>Opening Hours:</strong> 10:00 - 18:00</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Локація</h4>
+                <ul class="footer-list footer-list-bullets">
+                    <li>Вул. Фотографічна, 12</li>
+                    <li>м. Київ, Україна</li>
+                    <li>Студія "Світло"</li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-heading">Сайт</h4>
+                <ul class="footer-list footer-links">
+                    <li><a href="index.html">-> Про курс</a></li>
+                    <li><a href="gallery.html">-> Галерея</a></li>
+                    <li><a href="progress.html">-> Мій прогрес</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="copyright">
+            <p>&copy; 2026 EmberLens. Всі права захищені.</p>
+        </section>
+    </footer>
+    
+</body>
+</html>

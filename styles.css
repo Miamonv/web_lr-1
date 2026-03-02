@@ -7,7 +7,6 @@
 body {
     margin: 0;
     padding: 0;
-    /* font-family: sans-serif; */
     background-color: #0a0809;
 }
 
@@ -93,7 +92,6 @@ header {
     display: flex;
     align-items: center;
     position: relative;
-    font-family: serif;
     color: #8c7a6b;
 }
 
@@ -327,7 +325,6 @@ footer {
         align-items: center;
         padding-top: 40px;
         transition: right 0.4s ease;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
     }
 
     .nav__menu.active {
@@ -393,7 +390,6 @@ footer {
 .progress-main {
     background-color: #0a0809;
     padding: 60px 5% 100px;
-    /* min-height: 70vh; Щоб футер не прилипав, якщо контенту мало */
     border-bottom: #b7b7b7 3px solid;
 }
 
@@ -430,7 +426,6 @@ footer {
 }
 
 .stat-card h3 {
-    /* font-family: sans-serif; */
     font-size: 48px;
     color: #F28B22;
     margin: 0 0 10px 0;
@@ -476,7 +471,6 @@ footer {
 }
 
 .module-status {
-    /* font-family: sans-serif; */
     font-size: 12px;
     padding: 6px 12px;
     font-weight: bold;
@@ -533,13 +527,11 @@ footer {
 .page-subtitle {
     text-align: center;
     color: #999999;
-    font-family: sans-serif;
     margin-bottom: 60px;
 }
 
 .module-section {
     margin-bottom: 80px;
-    /* Додаємо відступ зверху для якорів, щоб хедер не перекривав заголовок при переході */
     scroll-margin-top: 100px; 
 }
 
@@ -553,7 +545,6 @@ footer {
 
 .locked-text {
     color: #666;
-    font-family: sans-serif;
     font-size: 18px;
 }
 
@@ -567,7 +558,7 @@ footer {
     background-color: #1a1a1a;
     border: 1px solid #2B2B2B;
     border-radius: 10px;
-    overflow: hidden; /* Щоб відео не вилазило за заокруглені кути */
+    overflow: hidden;
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
@@ -578,7 +569,7 @@ footer {
 
 .video-container {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Автоматично тримає пропорцію відео */
+    aspect-ratio: 16 / 9;
     background-color: #000;
 }
 
@@ -592,7 +583,6 @@ footer {
 }
 
 .lesson-duration {
-    font-family: sans-serif;
     font-size: 12px;
     color: #F28B22;
     background-color: rgba(242, 139, 34, 0.1);
@@ -610,8 +600,136 @@ footer {
 
 .lesson-info p {
     color: #888888;
-    font-family: sans-serif;
+    font-family: "Georgia", sans-serif;
     font-size: 14px;
     line-height: 1.6;
     margin: 0;
+}
+
+/*сторінка галереї*/
+.gallery-main {
+    background-color: #0a0809;
+    padding: 60px 5% 100px;
+    min-height: 70vh;
+}
+
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-title {
+    font-size: 48px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.gallery-subtitle {
+    text-align: center;
+    color: #999999;
+    font-family: "Georgia", sans-serif;
+    margin-bottom: 50px;
+}
+
+.upload-section {
+    margin-bottom: 60px;
+}
+
+.upload-box {
+    background-color: #1a1a1a;
+    border: 2px dashed #444;
+    border-radius: 15px;
+    padding: 50px 20px;
+    text-align: center;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.upload-box:hover {
+    border-color: #F28B22;
+    background-color: #242424;
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.upload-box h3 {
+    color: #EAEAEA;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.upload-box p {
+    color: #888888;
+    font-family: "Georgia", sans-serif;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.upload-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #f26b22, #f4d57a);
+    color: #000;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.upload-btn:hover {
+    transform: scale(1.05);
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.photo-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1; /*  квадрати */
+    cursor: pointer;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* заповнює квадрат без спотворення */
+    transition: transform 0.4s ease;
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-overlay span {
+    color: #FFF;
+    font-size: 24px;
+    font-family: "Georgia", sans-serif;
+    font-weight: bold;
+}
+
+.photo-item:hover img {
+    transform: scale(1.1); /* зум фото */
+}
+
+.photo-item:hover .photo-overlay {
+    opacity: 1; /* проявлення лайків */
 }
