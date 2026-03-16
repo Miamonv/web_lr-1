@@ -39,14 +39,18 @@ header {
 }
 
 /*для затемнення сайту під час меню*/
-.overlay {
-    display: none; /* cпочатку прихований */
+.overlay, 
+.login-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.85); /* Єдиний колір затемнення для всього сайту */
+}
+
+.overlay {
+    display: none; /* cпочатку прихований */
     z-index: 999;
 }
 
@@ -749,5 +753,64 @@ footer {
 
 .gallery-filter .upload-btn {
     border: #000;
+}
 
+.login-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    transition: opacity 0.5s ease;
+}
+
+.login-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* логін секція*/
+.login-section {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid #444;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.login-section h2 {
+    color: #EAEAEA;
+    margin-bottom: 10px;
+}
+
+.login-section p {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 5px;
+    /* font-family: sans-serif; */
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.login-form input:focus {
+    border-color: #F28B22;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 15px;
+    display: none;
 }

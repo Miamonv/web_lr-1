@@ -46,38 +46,69 @@ for (let i = 0; i < filterButtons.length; i++) {
 // для завантаження фото (додала вибір категорії фото))
 const fileInput = document.querySelector('.upload-btn input[type="file"]');
 const photoGrid = document.querySelector('.photo-grid');
-const categorySelect = document.querySelector('#photo-category'); // Наш новий випадаючий список
+const categorySelect = document.querySelector('#photo-category');
 
-// Перевіряємо, чи є взагалі на сторінці поле для файлу (щоб не було помилок на інших сторінках)
 if (fileInput) {
     fileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Беремо файл, який вибрав користувач
+        const file = event.target.files[0]; //файл, який вибрав користувач
         
         if (file) {
-            const reader = new FileReader(); // Вбудований інструмент браузера для читання файлів
+            const reader = new FileReader(); // інструмент браузера для читання файлів
             
-            // Що робити, коли файл прочитано:
             reader.onload = function(e) {
-                const photoUrl = e.target.result; // Отримуємо картинку у вигляді коду
-                const selectedCategory = categorySelect.value; // Беремо категорію, яку вибрав юзер
+                const photoUrl = e.target.result; // картинка у вигляді коду
+                const selectedCategory = categorySelect.value;
                 
-                // Створюємо HTML-код нової картки (одразу з правильною категорією data-category)
                 const newPhotoHTML = `
                     <div class="photo-item" data-category="${selectedCategory}">
-                        <img src="${photoUrl}" alt="Нове фото">
+                        <img src="${photoUrl}" alt="Моє фото">
                         <div class="photo-overlay"><span>❤️ 0</span></div>
                     </div>
                 `;
                 
-                // Вставляємо нову картку на самий початок сітки
+                // нова картка піде на самий початок сітки
                 photoGrid.insertAdjacentHTML('afterbegin', newPhotoHTML);
             };
             
-            // Запускаємо читання файлу
             reader.readAsDataURL(file);
         }
     });
 }
 
+/*логін у кабінет*/
+const loginOverlay = document.querySelector('.login-overlay');
+const loginForm = document.querySelector('.login-form');
+const emailInput = document.querySelector('#user-email');
+const passInput = document.querySelector('#user-pass');
+const formMessage = document.querySelector('.error-message');
 
+if (loginForm) {
+    document.body.style.overflow = 'hidden';
+
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const emailVal = emailInput.value.trim();
+        const passVal = passInput.value.trim();
+        
+        if (emailVal === '' || passVal === '') {
+            formMessage.style.color = 'red';
+            formMessage.textContent = 'Помилка: Будь ласка, заповніть всі поля!';
+        } else if (!emailVal.includes('@')) {
+            formMessage.style.color = 'red';
+            formMessage.textContent = 'Помилка: Невірний формат email!';
+        } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailVal)) {
+            formMessage.style.color = 'red';
+            formMessage.textContent = 'Помилка: Email може містити лише латинські літери, цифри та спеціальні символи (@, ., _, %, +, -)';
+        } else {
+            formMessage.style.color = '#F28B22';
+            formMessage.textContent = `Вітаємо, ${emailVal}! Вхід успішний.`;
+            
+            setTimeout(function() {
+                loginOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 1000);
+        }
+    });
+}
 
