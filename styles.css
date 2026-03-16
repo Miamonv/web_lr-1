@@ -521,7 +521,7 @@ footer {
 /*сторінка уроків*/
 .lessons-main {
     background-color: #0a0809;
-    padding: 60px 5% 100px;
+    padding: 60px 5% 60px;
     min-height: 70vh;
     border-bottom: #b7b7b7 3px solid;
 }
@@ -643,8 +643,51 @@ footer {
     margin-bottom: 50px;
 }
 
-.upload-section {
-    margin-bottom: 60px;
+.accordion-btn {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.accordion-btn:hover {color: #F28B22;}
+
+.arrow {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.accordion-content {display: none;}
+
+.accordion-content.open { display: grid;}
+
+.accordion-btn.active .arrow {transform: rotate(180deg);}
+
+.upload-section {margin-bottom: 60px;}
+
+.topics-summary {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    border: #2B2B2B 1px solid;
+    padding-left: 30px;
+}
+
+.topics-summary h4 {
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.topics-summary ul {
+    list-style: none;
+    padding-left: 20px;
+    color: #888888;
+    font-family: "Georgia", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
 }
 
 .upload-box {
@@ -690,9 +733,7 @@ footer {
     transition: transform 0.2s ease;
 }
 
-.upload-btn:hover {
-    transform: scale(1.05);
-}
+.upload-btn:hover {transform: scale(1.05);}
 
 .photo-grid {
     display: grid;

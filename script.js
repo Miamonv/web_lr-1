@@ -112,3 +112,81 @@ if (loginForm) {
     });
 }
 
+/*динамічне заповнення фото */
+fetch('data.json')
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        const photoGrid = document.querySelector('.photo-grid');
+        
+        if (photoGrid) {
+            const galleryData = data.gallery;
+            
+            for (let i = 0; i < galleryData.length; i++) {
+                const item = galleryData[i];
+                
+                const photoHTML = `
+                    <div class="photo-item" data-category="${item.category}">
+                        <img src="${item.url}" alt="Фото">
+                        <div class="photo-overlay"><span>❤️ ${item.likes}</span></div>
+                    </div>
+                `;
+                
+                /* зробити одиночну вставку!!!!!!!!!!!!!!!!!!!!!!!!!*/
+                /*елементна вставка з масиву */
+                photoGrid.insertAdjacentHTML('beforeend', photoHTML);
+            }
+        }
+
+        /*заповнення барів прогресу */
+        if (document.querySelector('.modules-grid')) {
+            const progressData = data.progressBars;
+            
+            for (let j = 0; j < progressData.length; j++) {
+                const progItem = progressData[j];
+                
+                const barElement = document.querySelector(`#bar-${progItem.id}`);
+                
+                if (barElement) {
+                    barElement.style.setProperty('--progress', `${progItem.percent}%`);
+                }
+            }
+        }
+    })
+    .catch(function(error) {
+        console.error('Помилка завантаження JSON:', error);
+    });
+
+/*акордеон для уроків*/
+const accordions = document.querySelectorAll('.accordion-btn');
+
+for (let i = 0; i < accordions.length; i++) {
+    accordions[i].addEventListener('click', function() {
+        this.classList.toggle('active');
+        
+        const content = this.nextElementSibling;
+        content.classList.toggle('open');
+    });
+}
+
+const topicsList = document.querySelector('#topics-list');
+
+if (topicsList) {
+    const lessonsData = [
+        "1. Правило третин та золотий перетин",
+        "2. Робота зі студійним світлом (Рембрандт)",
+        "3. Комерційна ретуш у Photoshop",
+        "4. Психологія роботи з моделлю",
+        "5. Формування портфоліо"
+    ];
+
+    let i = 0;
+    
+    while (i < lessonsData.length) {
+        const listItem = document.createElement('li');
+        listItem.textContent = lessonsData[i];
+        topicsList.appendChild(listItem);
+        i++;
+    }
+}
