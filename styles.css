@@ -350,9 +350,15 @@ footer {
         height: auto;
         padding-right: 0;
     }
+    
     .main__about-us {
         height: auto;
         padding: 40px 5%;
+    }
+
+    .main__about-us-text {
+        flex-direction: column;
+        gap: 30px;
     }
 
     .skills-section {
@@ -732,4 +738,16 @@ footer {
 
 .photo-item:hover .photo-overlay {
     opacity: 1; /* проявлення лайків */
+}
+
+.gallery-filter {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gallery-filter .upload-btn {
+    border: #000;
+
 }
