@@ -39,14 +39,18 @@ header {
 }
 
 /*для затемнення сайту під час меню*/
-.overlay {
-    display: none; /* cпочатку прихований */
+.overlay, 
+.login-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.85); /* Єдиний колір затемнення для всього сайту */
+}
+
+.overlay {
+    display: none; /* cпочатку прихований */
     z-index: 999;
 }
 
@@ -350,9 +354,15 @@ footer {
         height: auto;
         padding-right: 0;
     }
+    
     .main__about-us {
         height: auto;
         padding: 40px 5%;
+    }
+
+    .main__about-us-text {
+        flex-direction: column;
+        gap: 30px;
     }
 
     .skills-section {
@@ -511,7 +521,7 @@ footer {
 /*сторінка уроків*/
 .lessons-main {
     background-color: #0a0809;
-    padding: 60px 5% 100px;
+    padding: 60px 5% 60px;
     min-height: 70vh;
     border-bottom: #b7b7b7 3px solid;
 }
@@ -633,8 +643,51 @@ footer {
     margin-bottom: 50px;
 }
 
-.upload-section {
-    margin-bottom: 60px;
+.accordion-btn {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.accordion-btn:hover {color: #F28B22;}
+
+.arrow {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.accordion-content {display: none;}
+
+.accordion-content.open { display: grid;}
+
+.accordion-btn.active .arrow {transform: rotate(180deg);}
+
+.upload-section {margin-bottom: 60px;}
+
+.topics-summary {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    border: #2B2B2B 1px solid;
+    padding-left: 30px;
+}
+
+.topics-summary h4 {
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.topics-summary ul {
+    list-style: none;
+    padding-left: 20px;
+    color: #888888;
+    font-family: "Georgia", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
 }
 
 .upload-box {
@@ -680,9 +733,7 @@ footer {
     transition: transform 0.2s ease;
 }
 
-.upload-btn:hover {
-    transform: scale(1.05);
-}
+.upload-btn:hover {transform: scale(1.05);}
 
 .photo-grid {
     display: grid;
@@ -732,4 +783,75 @@ footer {
 
 .photo-item:hover .photo-overlay {
     opacity: 1; /* проявлення лайків */
+}
+
+.gallery-filter {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.gallery-filter .upload-btn {
+    border: #000;
+}
+
+.login-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    transition: opacity 0.5s ease;
+}
+
+.login-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* логін секція*/
+.login-section {
+    background-color: #1a1a1a;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid #444;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.login-section h2 {
+    color: #EAEAEA;
+    margin-bottom: 10px;
+}
+
+.login-section p {
+    color: #888;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 5px;
+    /* font-family: sans-serif; */
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.login-form input:focus {
+    border-color: #F28B22;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 15px;
+    display: none;
 }

@@ -27,8 +27,23 @@
     </header>
 
     <div class="overlay" id="overlay"></div>
+
+    <div class="login-overlay">
+        <div class="login-section">
+            <h2>Увійти до кабінету</h2>
+            <p>Будь ласка, увійдіть до свого облікового запису, щоб переглянути свій прогрес.</p>
+
+            <form class="login-form">
+                <input id="user-email" type="email" name="email" placeholder="Ваш email" required>
+                <input id="user-pass" type="password" name="password" placeholder="Ваш пароль" required>
+                <button type="submit" class="upload-btn">Увійти</button>
+            </form>
+            <p class="error-message">Помилка вводу</p>
+        </div>
+    </div>
     
     <main class="progress-main">
+
         <div class="progress-container">
             <h1 class="progress-title">Мій <span class="gradient-text">Прогрес</span></h1>
 
@@ -48,7 +63,6 @@
             </section>
 
             <h2 class="modules-title">Програма навчання</h2>
-
             <section class="modules-grid">
                 <a href="lessons.html#module-1" class="module-card completed" style="text-decoration: none;">
                     <div class="module-header">
@@ -56,7 +70,7 @@
                         <h4>Модуль 1: Основи композиції</h4>
                     </div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar" style="--progress: 100%;"></div>
+                        <div class="progress-bar" id="bar-module-1" style="--progress: 0%;"></div>
                     </div>
                 </a>
 
@@ -66,7 +80,7 @@
                         <h4>Модуль 2: Студійне світло</h4>
                     </div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar" style="--progress: 60%;"></div>
+                        <div class="progress-bar" id="bar-module-2" style="--progress: 0%;"></div>
                     </div>
                 </a>
 
@@ -76,7 +90,7 @@
                         <h4>Модуль 3: Комерційна ретуш</h4>
                     </div>
                     <d class="progress-bar-container">
-                        <div class="progress-bar" style="--progress: 0%;"></div>
+                        <div class="progress-bar" id="bar-module-3" style="--progress: 0%;"></div>
                     </div>
                 </a>
             </section>
@@ -105,7 +119,6 @@
                 <ul class="footer-list footer-list-bullets">
                     <li>Вул. Фотографічна, 12</li>
                     <li>м. Київ, Україна</li>
-                    <li>Студія "Світло"</li>
                 </ul>
             </div>
 
@@ -124,5 +137,6 @@
         </section>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
