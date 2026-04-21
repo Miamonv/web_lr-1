@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/web_lr-1/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="lessons" element={<LessonsPage />} />
           <Route path="gallery" element={<GalleryPage />} />
