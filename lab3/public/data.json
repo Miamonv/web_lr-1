@@ -1,0 +1,48 @@
+{
+  "gallery": [
+    {
+      "url": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop",
+      "category": "landscape",
+      "likes": 124
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1554080353-a576cf803bda?q=80&w=800&auto=format&fit=crop",
+      "category": "portrait",
+      "likes": 89
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop",
+      "category": "macro",
+      "likes": 205
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop",
+      "category": "portrait",
+      "likes": 56
+    },
+    {
+      "url": "https://burst.shopifycdn.com/photos/person-holds-a-book-over-a-stack-and-turns-the-page.jpg?width=373&format=pjpg&exif=0&iptc=0",
+      "category": "macro",
+      "likes": 312
+    }, 
+    {
+      "url": "https://burst.shopifycdn.com/photos/dancing-house-and-bus-prague.jpg?width=373&format=pjpg&exif=0&iptc=0",
+      "category": "architecture",
+      "likes": 584
+    }
+  ],
+  "progressBars": [
+    {
+      "id": "module-1",
+      "percent": 100
+    },
+    {
+      "id": "module-2",
+      "percent": 60
+    },
+    {
+      "id": "module-3",
+      "percent": 0
+    }
+  ]
+}
