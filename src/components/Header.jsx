@@ -10,7 +10,7 @@ const Header = () => {
     <>
       <header>
         <div className="header__logo">
-          <img src="/logo.png" alt="Логотип курсу" className="header__logo-img" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Логотип курсу" className="header__logo-img" />
           <span className="header__logo-text">EmberLens</span>
         </div>
         

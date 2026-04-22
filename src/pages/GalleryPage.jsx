@@ -8,7 +8,7 @@ const GalleryPage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(true); // Відкрито за замовчуванням при переході (імітація поведінки)
 
   useEffect(() => {
-    fetch('/data.json')
+    fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
       .then(data => setPhotos(data.gallery))
       .catch(err => console.error('Помилка:', err));

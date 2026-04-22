@@ -9,8 +9,8 @@ const HomePage = () => {
           </p>
         </div>
         <picture>
-          <source srcSet="/girl_black_background.png" type="image/png" />
-          <img src="/girl_black_background.png" alt="Жінка у світлі на чорному тлі" className="main__picture-1" />
+          <source srcSet={`${import.meta.env.BASE_URL}girl_black_background.png`} type="image/png" />
+          <img src={`${import.meta.env.BASE_URL}girl_black_background.png`} alt="Жінка у світлі на чорному тлі" className="main__picture-1" />
         </picture>
       </section>
 
@@ -32,7 +32,7 @@ const HomePage = () => {
 
       <section className="skills-section">
         <div className="skills-image">
-          <img src="/model-2.png" alt="Студентка курсу" />
+          <img src={`${import.meta.env.BASE_URL}model-2.png`} alt="Студентка курсу" />
         </div>
         
         <div className="skills-content">

@@ -5,9 +5,9 @@ const Footer = () => {
     <footer>
       <section className="contacts">
         <div className="social-media">
-          <a href="#" target="_blank" rel="noreferrer"><img src="/facebook1.png" alt="Facebook" /></a>
-          <a href="#" target="_blank" rel="noreferrer"><img src="/Insta.webp" alt="Instagram" /></a>
-          <a href="#" target="_blank" rel="noreferrer"><img src="/twitter.webp" alt="Twitter" /></a>
+          <a href="#" target="_blank" rel="noreferrer"><img src={`${import.meta.env.BASE_URL}facebook1.png`} alt="Facebook" /></a>
+          <a href="#" target="_blank" rel="noreferrer"><img src={`${import.meta.env.BASE_URL}insta.webp`} alt="Instagram" /></a>
+          <a href="#" target="_blank" rel="noreferrer"><img src={`${import.meta.env.BASE_URL}twitter.webp`} alt="Twitter" /></a>
         </div>
 
         <div className="footer-column">

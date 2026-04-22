@@ -17,7 +17,6 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
         <h3>{title}</h3>
         <p>{description}</p>
         
-        {/* Реалізація Варіанту 22 - можливість відмічати пройдені уроки */}
         <button 
           className="upload-btn" 
           style={{ 

@@ -7,7 +7,7 @@ const ProgressPage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(true);
 
   useEffect(() => {
-    fetch('/data.json')
+    fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
       .then(data => setProgressBars(data.progressBars))
       .catch(err => console.error('Помилка JSON:', err));
