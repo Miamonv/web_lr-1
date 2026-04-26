@@ -36,7 +36,7 @@ const GalleryPage = () => {
 
   return (
     <>
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} /> */}
       
       <main className="gallery-main">
         <div className="gallery-container">

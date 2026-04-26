@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
 const LoginModal = ({ isOpen, onClose }) => {
+  const [isRegisterMode, setIsRegisterMode] = useState(false); // вхід чи реєстрація
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -9,6 +12,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setMessage('');
     } else {
       document.body.style.overflow = 'auto';
     }
@@ -22,25 +26,48 @@ const LoginModal = ({ isOpen, onClose }) => {
     const emailVal = email.trim();
     const passVal = password.trim();
 
-    if (emailVal === '' || passVal === '') {
+    if (passVal < 6){
       setIsError(true);
-      setMessage('Помилка: Будь ласка, заповніть всі поля!');
-    } else if (!emailVal.includes('@')) {
-      setIsError(true);
-      setMessage('Помилка: Невірний формат email!');
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailVal)) {
-      setIsError(true);
-      setMessage('Помилка: Email може містити лише латинські літери, цифри та спеціальні символи (@, ., _, %, +, -)');
-    } else {
-      setIsError(false);
-      setMessage(`Вітаємо, ${emailVal}! Вхід успішний.`);
-      setTimeout(() => {
-        onClose();
-        setMessage('');
-        setEmail('');
-        setPassword('');
-      }, 1000);
+      setMessage('Замалий пароль!!');
+      return;
     }
+
+    // для РЕЄСТРАЦІЇ
+    if(isRegisterMode){
+      createUserWithEmailAndPassword(auth, emailVal, passVal)
+      .then ((userCredential) => {
+        setIsError(false);
+        setMessage('Акаунт успішно створено! Привіт, ${userCredential.user.email}');
+        setTimeout(onClose, 2000);
+      })
+
+      .catch((error) => {
+        setIsError(true);
+        if (error.code === 'auth/email-already-in-use') {
+            setMessage('Цей Email вже зареєстровано!');
+          } else {
+            setMessage(`Помилка: ${error.message}`);
+          }
+      });
+    } 
+    // для ВХОДУ
+    else {
+      signInWithEmailAndPassword(auth, emailVal, passVal)
+      .then ((userCredential) => {
+        setIsError(false);
+        setMessage('Успішний вхід! Привіт, ${userCredential.user.email}');
+        setTimeout(onClose, 2000);
+      })
+
+      .catch ((error) => {
+        setIsError(true);
+        if (error.code === 'auth/invalid-credential')
+          setMessage('Невірний Email або пароль!');
+        else
+          setMessage(`Помилка: ${error.message}`);
+      });
+    }
+      
   };
 
   if (!isOpen) return null;
@@ -48,8 +75,12 @@ const LoginModal = ({ isOpen, onClose }) => {
   return (
     <div className="login-overlay" onClick={onClose}>
       <div className="login-section" onClick={(e) => e.stopPropagation()}>
-        <h2>Увійти до кабінету</h2>
-        <p>Будь ласка, увійдіть до свого облікового запису, щоб переглянути свій прогрес.</p>
+        <h2>{isRegisterMode ? 'Створити акаунт' : 'Увійти до кабінету'}</h2>
+        <p>
+          {isRegisterMode 
+            ? 'Зареєструйтесь, щоб отримати доступ до курсу.' //Будь ласка, увійдіть до свого облікового запису, щоб переглянути свій прогрес.
+            : 'Увійдіть до свого облікового запису.'}
+        </p>
 
         <form className="login-form" onSubmit={handleSubmit}>
           <input 
@@ -66,10 +97,18 @@ const LoginModal = ({ isOpen, onClose }) => {
             onChange={(e) => setPassword(e.target.value)} 
             required 
           />
-          <button type="submit" className="upload-btn">Увійти</button>
+          <button type="submit" className="upload-btn">
+            {isRegisterMode ? 'Зареєструватися' : 'Увійти'}
+          </button>
         </form>
+
+        <p style={{ marginTop: '15px', color: '#888', fontSize: '14px', cursor: 'pointer' }} 
+           onClick={() => { setIsRegisterMode(!isRegisterMode); setMessage(''); }}>
+          {isRegisterMode ? 'Вже є акаунт? Увійти' : 'Немає акаунту? Зареєструватися'}
+        </p>
+
         {message && (
-          <p className="error-message" style={{ color: isError ? 'red' : '#F28B22' }}>
+          <p className="error-message" style={{ color: isError ? 'red' : '#F28B22', display: 'block'}}>
             {message}
           </p>
         )}
