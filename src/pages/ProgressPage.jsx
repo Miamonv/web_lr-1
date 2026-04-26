@@ -20,7 +20,7 @@ const ProgressPage = () => {
 
   return (
     <>
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} /> */}
       
       <main className="progress-main">
         <div className="progress-container">
