@@ -26,7 +26,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     const emailVal = email.trim();
     const passVal = password.trim();
 
-    if (passVal < 6){
+    if (passVal.length < 6){
       setIsError(true);
       setMessage('Замалий пароль!!');
       return;
@@ -37,7 +37,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       createUserWithEmailAndPassword(auth, emailVal, passVal)
       .then ((userCredential) => {
         setIsError(false);
-        setMessage('Акаунт успішно створено! Привіт, ${userCredential.user.email}');
+        setMessage(`Акаунт успішно створено! Привіт, ${userCredential.user.email}`);
         setTimeout(onClose, 2000);
       })
 
@@ -55,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       signInWithEmailAndPassword(auth, emailVal, passVal)
       .then ((userCredential) => {
         setIsError(false);
-        setMessage('Успішний вхід! Привіт, ${userCredential.user.email}');
+        setMessage(`Успішний вхід! Привіт, ${userCredential.user.email}`);
         setTimeout(onClose, 2000);
       })
 
