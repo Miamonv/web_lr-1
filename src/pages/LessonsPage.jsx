@@ -132,7 +132,6 @@ const LessonsPage = () => {
           </h2>
           
           <div className={`lessons-grid accordion-content ${openModule === 'module-1' ? 'open' : ''}`}>
-            {/* ВИВЕЛИ УРОКИ ТІЛЬКИ ДЛЯ ПЕРШОГО МОДУЛЯ */}
             {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').length > 0 ? (
               lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').map((lesson) => (
                 <LessonCard 
@@ -159,7 +158,6 @@ const LessonsPage = () => {
             Модуль 2: Студійне світло
           </h2>
           <div className={`lessons-grid accordion-content ${openModule === 'module-2' ? 'open' : ''}`}>
-             {/* ВИВЕЛИ УРОКИ ТІЛЬКИ ДЛЯ ДРУГОГО МОДУЛЯ */}
              {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').length > 0 ? (
               lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').map((lesson) => (
                 <LessonCard 
