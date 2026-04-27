@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react';
-import LoginModal from '../components/LoginModal';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const GalleryPage = () => {
   const [photos, setPhotos] = useState([]);
   const [filter, setFilter] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('landscape');
-  const [isLoginOpen, setIsLoginOpen] = useState(true); // Відкрито за замовчуванням при переході (імітація поведінки)
+  const [user, setUser] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
+    // статус Firebase
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoadingAuth(false);
+    });
+
     fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
       .then(data => setPhotos(data.gallery))
       .catch(err => console.error('Помилка:', err));
+
+      return () => unsubscribe();
   }, []);
 
   const handleFileUpload = (e) => {
@@ -34,10 +44,27 @@ const GalleryPage = () => {
     ? photos 
     : photos.filter(p => p.category === filter);
 
+  if (loadingAuth) {
+    return (
+      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <p style={{ color: '#888' }}>Перевірка доступу...</p>
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="gallery-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
+        <p style={{ marginTop: '20px', color: '#888' }}>
+          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати та додавати роботи в галерею.
+        </p>
+      </main>
+    );
+  }
+
   return (
     <>
-      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} /> */}
-      
       <main className="gallery-main">
         <div className="gallery-container">
           <h1 className="gallery-title">Галерея <span className="gradient-text">Робіт</span></h1>

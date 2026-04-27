@@ -18,7 +18,7 @@ header {
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1010;
     height: 80px;
 }
 
@@ -41,6 +41,7 @@ header {
 /*для затемнення сайту під час меню*/
 .overlay, 
 .login-overlay {
+    z-index: 1001;
     position: fixed;
     top: 0;
     left: 0;
@@ -800,7 +801,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1001;
+    /* z-index: 1001; */
     transition: opacity 0.5s ease;
 }
 
@@ -819,6 +820,7 @@ footer {
     max-width: 400px;
     width: 90%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    z-index: 1008;
 }
 
 .login-section h2 {

@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDone }) => {
   return (
@@ -28,7 +31,7 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
           }}
           onClick={onToggleDone}
         >
-          {isDone ? '✔️ Пройдено' : 'Відмітити як пройдений'}
+          {isDone ? 'Пройдено' : 'Відмітити як пройдений'}
         </button>
       </div>
     </div>
@@ -38,6 +41,34 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
 const LessonsPage = () => {
   const [openModule, setOpenModule] = useState('module-1');
   const [completedLessons, setCompletedLessons] = useState({});
+  
+  const [user, setUser] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
+  const [lessonsFromDB, setLessonsFromDB] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoadingAuth(false);
+    });
+
+    const fetchLessons = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "lessons"));
+        const lessonsArray = [];
+        querySnapshot.forEach((doc) => {
+          lessonsArray.push({ id: doc.id, ...doc.data() });
+        });
+        setLessonsFromDB(lessonsArray);
+      } catch (error) {
+        console.error("Помилка завантаження уроків:", error);
+      }
+    };
+
+    fetchLessons();
+
+    return () => unsubscribe();
+  }, []);
 
   const toggleModule = (moduleName) => {
     setOpenModule(openModule === moduleName ? null : moduleName);
@@ -57,6 +88,25 @@ const LessonsPage = () => {
     "4. Психологія роботи з моделлю",
     "5. Формування портфоліо"
   ];
+
+  if (loadingAuth) {
+    return (
+      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <p style={{ color: '#888' }}>Перевірка доступу...</p>
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="lessons-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
+        <p style={{ marginTop: '20px', color: '#888' }}>
+          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати уроки.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="lessons-main">
@@ -82,23 +132,22 @@ const LessonsPage = () => {
           </h2>
           
           <div className={`lessons-grid accordion-content ${openModule === 'module-1' ? 'open' : ''}`}>
-            <LessonCard 
-              title="Урок 1.1: Золотий перетин / Спіраль Фібоначчі"
-              duration="7"
-              description="Ви коли-небудь замислювалися, чому деякі кінокадри виглядають неймовірно гармонійно та привабливо? Відповідь криється в золотому перетині та його тісному зв'язку зі спіраллю Фібоначчі! У цьому відео ми розкриємо математичну красу, що лежить в основі композиції у кіно."
-              videoSrc="https://www.youtube.com/embed/KXeD4Bs3lno" // Змінено watch?v= на embed/ для iframe
-              isDone={completedLessons['1.1']}
-              onToggleDone={() => toggleLessonDone('1.1')}
-            />
-            
-            <LessonCard 
-              title="Урок 1.2: 5 Принципів успішного фотографа"
-              duration="30"
-              description="Дуже важливі правила, які має засвоїти і використовувати у своїй діяльності кожен фотограф, який хоче досягти успіху у професіїї 'ФОТОГРАФ'"
-              videoSrc="https://www.youtube.com/embed/E22nU7mYIuM"
-              isDone={completedLessons['1.2']}
-              onToggleDone={() => toggleLessonDone('1.2')}
-            />
+            {/* ВИВЕЛИ УРОКИ ТІЛЬКИ ДЛЯ ПЕРШОГО МОДУЛЯ */}
+            {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').length > 0 ? (
+              lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').map((lesson) => (
+                <LessonCard 
+                  key={lesson.id}
+                  title={lesson.title}
+                  duration={lesson.duration}
+                  description={lesson.description}
+                  videoSrc={lesson.videoSrc}
+                  isDone={completedLessons[lesson.id]}
+                  onToggleDone={() => toggleLessonDone(lesson.id)}
+                />
+              ))
+            ) : (
+              <p style={{color: '#888'}}>Завантаження уроків...</p>
+            )}
           </div>
         </section>
 
@@ -110,14 +159,22 @@ const LessonsPage = () => {
             Модуль 2: Студійне світло
           </h2>
           <div className={`lessons-grid accordion-content ${openModule === 'module-2' ? 'open' : ''}`}>
-            <LessonCard 
-              title="Урок 2.1: Заповнений кадр"
-              duration="6"
-              description="Аналіз яскравих прикладів використання «заповненого кадру» у культових кінофільмах. Практичні поради, як використовувати правило «Заповнений кадр» у ваших власних відео."
-              videoSrc="https://www.youtube.com/embed/Hw1xNeDRonE"
-              isDone={completedLessons['2.1']}
-              onToggleDone={() => toggleLessonDone('2.1')}
-            />
+             {/* ВИВЕЛИ УРОКИ ТІЛЬКИ ДЛЯ ДРУГОГО МОДУЛЯ */}
+             {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').length > 0 ? (
+              lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').map((lesson) => (
+                <LessonCard 
+                  key={lesson.id}
+                  title={lesson.title}
+                  duration={lesson.duration}
+                  description={lesson.description}
+                  videoSrc={lesson.videoSrc}
+                  isDone={completedLessons[lesson.id]}
+                  onToggleDone={() => toggleLessonDone(lesson.id)}
+                />
+              ))
+            ) : (
+              <p style={{color: '#888'}}>Завантаження уроків...</p>
+            )}
           </div>
         </section>
 

@@ -1,16 +1,27 @@
 import { useState, useEffect } from 'react';
 import LoginModal from '../components/LoginModal';
 import { Link } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const ProgressPage = () => {
   const [progressBars, setProgressBars] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const [isLoginOpen, setIsLoginOpen] = useState(true);
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoadingAuth(false);
+    });
+
     fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
       .then(data => setProgressBars(data.progressBars))
       .catch(err => console.error('Помилка JSON:', err));
+
+      return () => unsubscribe();
   }, []);
 
   const getProgressPercent = (id) => {
@@ -18,10 +29,28 @@ const ProgressPage = () => {
     return bar ? bar.percent : 0;
   };
 
+  if (loadingAuth) {
+    return (
+      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <p style={{ color: '#888' }}>Перевірка доступу...</p>
+      </main>
+    );
+  }
+
+  // якщо користувач не увійшов
+  if (!user) {
+    return (
+      <main className="progress-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
+        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
+        <p style={{ marginTop: '20px', color: '#888' }}>
+          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати свій прогрес.
+        </p>
+      </main>
+    );
+  }  
+
   return (
-    <>
-      {/* <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} /> */}
-      
+    <>      
       <main className="progress-main">
         <div className="progress-container">
           <h1 className="progress-title">Мій <span className="gradient-text">Прогрес</span></h1>
