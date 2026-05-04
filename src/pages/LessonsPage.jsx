@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
 
 const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDone }) => {
   return (
@@ -27,9 +24,10 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
             background: isDone ? '#4CAF50' : '#2B2B2B',
             color: '#fff',
             border: isDone ? '1px solid #4CAF50' : '1px solid #999',
-            cursor: 'pointer'
+            cursor: isDone ? 'default' : 'pointer'
           }}
           onClick={onToggleDone}
+          disabled={isDone}
         >
           {isDone ? 'Пройдено' : 'Відмітити як пройдений'}
         </button>
@@ -41,44 +39,74 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
 const LessonsPage = () => {
   const [openModule, setOpenModule] = useState('module-1');
   const [completedLessons, setCompletedLessons] = useState({});
-  
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [lessonsFromDB, setLessonsFromDB] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoadingAuth(false);
-    });
+    const token = localStorage.getItem('token');
+    if (token) {
+      setUser(true);
+    } else {
+      setUser(null);
+    }
+    setLoadingAuth(false);
 
-    const fetchLessons = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "lessons"));
-        const lessonsArray = [];
-        querySnapshot.forEach((doc) => {
-          lessonsArray.push({ id: doc.id, ...doc.data() });
-        });
-        setLessonsFromDB(lessonsArray);
-      } catch (error) {
-        console.error("Помилка завантаження уроків:", error);
-      }
-    };
+    fetch(`${import.meta.env.BASE_URL}data.json`)
+      .then(res => res.json())
+      .then(data => {
+        setLessonsFromDB(data.lessons || []);
+      })
+      .catch(err => console.error('Помилка:', err));
 
-    fetchLessons();
-
-    return () => unsubscribe();
+    if (token) {
+      fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(passedData => {
+        const passedMap = {};
+        if (Array.isArray(passedData)) {
+          passedData.forEach(item => {
+            passedMap[item.lessonId] = true;
+          });
+        }
+        setCompletedLessons(passedMap);
+      })
+      .catch(err => console.error(err));
+    }
   }, []);
 
   const toggleModule = (moduleName) => {
     setOpenModule(openModule === moduleName ? null : moduleName);
   };
 
-  const toggleLessonDone = (lessonId) => {
-    setCompletedLessons(prev => ({
-      ...prev,
-      [lessonId]: !prev[lessonId]
-    }));
+  const toggleLessonDone = async (lesson) => {
+    const token = localStorage.getItem('token');
+    if (!token || completedLessons[lesson.id]) return;
+
+    try {
+      const response = await fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          lessonId: String(lesson.id),
+          title: lesson.title
+        })
+      });
+
+      if (response.ok) {
+        setCompletedLessons(prev => ({
+          ...prev,
+          [lesson.id]: true
+        }));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const topicsList = [
@@ -141,7 +169,7 @@ const LessonsPage = () => {
                   description={lesson.description}
                   videoSrc={lesson.videoSrc}
                   isDone={completedLessons[lesson.id]}
-                  onToggleDone={() => toggleLessonDone(lesson.id)}
+                  onToggleDone={() => toggleLessonDone(lesson)}
                 />
               ))
             ) : (
@@ -167,7 +195,7 @@ const LessonsPage = () => {
                   description={lesson.description}
                   videoSrc={lesson.videoSrc}
                   isDone={completedLessons[lesson.id]}
-                  onToggleDone={() => toggleLessonDone(lesson.id)}
+                  onToggleDone={() => toggleLessonDone(lesson)}
                 />
               ))
             ) : (

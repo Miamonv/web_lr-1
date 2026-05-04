@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase';
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const [isRegisterMode, setIsRegisterMode] = useState(false); // вхід чи реєстрація
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -21,7 +19,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     };
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const emailVal = email.trim();
     const passVal = password.trim();
@@ -32,42 +30,39 @@ const LoginModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    // для РЕЄСТРАЦІЇ
-    if(isRegisterMode){
-      createUserWithEmailAndPassword(auth, emailVal, passVal)
-      .then ((userCredential) => {
-        setIsError(false);
-        setMessage(`Акаунт успішно створено! Привіт, ${userCredential.user.email}`);
-        setTimeout(onClose, 2000);
-      })
+    const endpoint = isRegisterMode ? '/api/auth/register' : '/api/auth/login';
+    const url = `https://web-lr-1.onrender.com${endpoint}`;
 
-      .catch((error) => {
-        setIsError(true);
-        if (error.code === 'auth/email-already-in-use') {
-            setMessage('Цей Email вже зареєстровано!');
-          } else {
-            setMessage(`Помилка: ${error.message}`);
-          }
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          name: emailVal.split('@')[0],
+          email: emailVal, 
+          password: passVal 
+        })
       });
-    } 
-    // для ВХОДУ
-    else {
-      signInWithEmailAndPassword(auth, emailVal, passVal)
-      .then ((userCredential) => {
-        setIsError(false);
-        setMessage(`Успішний вхід! Привіт, ${userCredential.user.email}`);
-        setTimeout(onClose, 2000);
-      })
 
-      .catch ((error) => {
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsError(false);
+        setMessage(isRegisterMode ? 'Акаунт успішно створено!' : 'Успішний вхід!');
+        localStorage.setItem('token', data.token);
+        
+        setTimeout(() => {
+          onClose();
+          window.location.reload(); 
+        }, 1500);
+      } else {
         setIsError(true);
-        if (error.code === 'auth/invalid-credential')
-          setMessage('Невірний Email або пароль!');
-        else
-          setMessage(`Помилка: ${error.message}`);
-      });
+        setMessage(data.message || 'Сталася помилка!');
+      }
+    } catch (error) {
+      setIsError(true);
+      setMessage('Помилка з\'єднання з сервером');
     }
-      
   };
 
   if (!isOpen) return null;
@@ -78,7 +73,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         <h2>{isRegisterMode ? 'Створити акаунт' : 'Увійти до кабінету'}</h2>
         <p>
           {isRegisterMode 
-            ? 'Зареєструйтесь, щоб отримати доступ до курсу.' //Будь ласка, увійдіть до свого облікового запису, щоб переглянути свій прогрес.
+            ? 'Зареєструйтесь, щоб отримати доступ до курсу.' 
             : 'Увійдіть до свого облікового запису.'}
         </p>
 
@@ -108,7 +103,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         </p>
 
         {message && (
-          <p className="error-message" style={{ color: isError ? 'red' : '#F28B22', display: 'block'}}>
+          <p className="error-message" style={{ color: isError ? 'red' : '#4CAF50', display: 'block'}}>
             {message}
           </p>
         )}
