@@ -44,5 +44,79 @@
       "id": "module-3",
       "percent": 0
     }
+  ],
+  "lessons": [
+    {
+      "id": "lesson_1",
+      "moduleId": "module-1",
+      "title": "1. Правило третин та золотий перетин",
+      "duration": 12,
+      "description": "Основи композиції. Вчимося правильно розташовувати об'єкти в кадрі для створення гармонійного фото.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_2",
+      "moduleId": "module-1",
+      "title": "2. Ракурс та перспектива",
+      "duration": 15,
+      "description": "Як зміна кута зйомки впливає на сприйняття фотографії та допомагає приховати недоліки.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_3",
+      "moduleId": "module-1",
+      "title": "3. Колірний круг Іттена",
+      "duration": 18,
+      "description": "Розбираємо гармонійні поєднання кольорів та їх вплив на настрій кадру.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_4",
+      "moduleId": "module-2",
+      "title": "1. Робота зі студійним світлом (Рембрандт)",
+      "duration": 20,
+      "description": "Налаштування класичної схеми освітлення Рембрандта у студії з одним джерелом світла.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_5",
+      "moduleId": "module-2",
+      "title": "2. Високий та низький ключ",
+      "duration": 14,
+      "description": "Специфіка зйомки в High Key та Low Key. Як створювати драматичні або легкі портрети.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_6",
+      "moduleId": "module-2",
+      "title": "3. Кольорові фільтри",
+      "duration": 16,
+      "description": "Креативне освітлення. Додаємо динаміки в кадр за допомогою гелевих кольорових фільтрів.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_7",
+      "moduleId": "module-3",
+      "title": "1. Комерційна ретуш у Photoshop",
+      "duration": 25,
+      "description": "Частотний розклад шкіри, Dodge & Burn та ідеальна чистка текстури.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_8",
+      "moduleId": "module-3",
+      "title": "2. Психологія роботи з моделлю",
+      "duration": 10,
+      "description": "Як розслабити людину в кадрі, підібрати правильні позиції та створити довіру.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    },
+    {
+      "id": "lesson_9",
+      "moduleId": "module-3",
+      "title": "3. Формування портфоліо",
+      "duration": 15,
+      "description": "Як відбирати найкращі роботи, шукати перших клієнтів та упаковувати свої послуги.",
+      "videoSrc": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    }
   ]
 }
