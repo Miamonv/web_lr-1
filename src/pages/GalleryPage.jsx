@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
 
 const GalleryPage = () => {
   const [photos, setPhotos] = useState([]);
@@ -10,18 +8,18 @@ const GalleryPage = () => {
   const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
-    // статус Firebase
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoadingAuth(false);
-    });
+    const token = localStorage.getItem('token');
+    if (token) {
+      setUser(true);
+    } else {
+      setUser(null);
+    }
+    setLoadingAuth(false);
 
     fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
       .then(data => setPhotos(data.gallery))
       .catch(err => console.error('Помилка:', err));
-
-      return () => unsubscribe();
   }, []);
 
   const handleFileUpload = (e) => {
