@@ -7,10 +7,8 @@ import ProgressPage from './pages/ProgressPage';
 
 function App() {
   return (
-    // Змінили BrowserRouter на HashRouter
     <HashRouter>
       <Routes>
-        {/* Змінили path="/web_lr-1/" на просто path="/" */}
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="lessons" element={<LessonsPage />} />
