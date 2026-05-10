@@ -2,48 +2,54 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const ProgressPage = () => {
-  const [progressBars, setProgressBars] = useState([]);
-  const [user, setUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
+  const [allLessons, setAllLessons] = useState([]);
+  const [passedLessons, setPassedLessons] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setUser(true);
-    } else {
-      setUser(null);
-    }
-    setLoadingAuth(false);
 
+    // завантажуємо всі існуючі уроки
     fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
-      .then(data => setProgressBars(data.progressBars || []))
+      .then(data => setAllLessons(data.lessons || []))
       .catch(err => console.error('Помилка JSON:', err));
+
+    // завантажуємо реально пройдені юзером
+    fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => setPassedLessons(Array.isArray(data) ? data : []))
+    .catch(err => console.error(err));
   }, []);
 
-  const getProgressPercent = (id) => {
-    const bar = progressBars.find(b => b.id === id);
-    return bar ? bar.percent : 0;
+  // динамічний розрахунок прогресу для модулів
+  const getProgressPercent = (moduleId) => {
+    const moduleLessons = allLessons.filter(l => l.moduleId === moduleId);
+    if (moduleLessons.length === 0) return 0;
+    
+    const passedInModule = passedLessons.filter(passed => 
+       moduleLessons.some(l => String(l.id) === String(passed.lessonId))
+    ).length;
+
+    return Math.round((passedInModule / moduleLessons.length) * 100);
   };
 
-  if (loadingAuth) {
-    return (
-      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <p style={{ color: '#888' }}>Перевірка доступу...</p>
-      </main>
-    );
-  }
+  // загальна статистика
+  const totalLessons = allLessons.length;
+  const totalPassed = passedLessons.length;
+  const totalPercent = totalLessons === 0 ? 0 : Math.round((totalPassed / totalLessons) * 100);
+  
+  // рахуємо години
+  const totalMinutes = passedLessons.reduce((acc, passed) => {
+    const lesson = allLessons.find(l => String(l.id) === String(passed.lessonId));
+    return acc + (lesson ? lesson.duration : 0);
+  }, 0);
+  const totalHours = (totalMinutes / 60).toFixed(1);
 
-  if (!user) {
-    return (
-      <main className="progress-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
-        <p style={{ marginTop: '20px', color: '#888' }}>
-          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати свій прогрес.
-        </p>
-      </main>
-    );
-  }  
+  // закриті модулі
+  const modules = ['module-1', 'module-2', 'module-3'];
+  const closedModules = modules.filter(m => getProgressPercent(m) === 100).length;
 
   return (
     <>      
@@ -53,50 +59,49 @@ const ProgressPage = () => {
 
           <section className="stats-grid">
             <div className="stat-card">
-              <h3>33%</h3>
+              <h3>{totalPercent}%</h3>
               <p>Курсу пройдено</p>
             </div>
             <div className="stat-card">
-              <h3>5</h3>
+              <h3>{totalHours}</h3>
               <p>Годин практики</p>
             </div>
             <div className="stat-card">
-              <h3>1/3</h3>
+              <h3>{closedModules}/3</h3>
               <p>Модулів закрито</p>
             </div>
           </section>
 
           <h2 className="modules-title">Програма навчання</h2>
           <section className="modules-grid">
-            <Link to="/lessons#module-1" className="module-card completed" style={{ textDecoration: 'none' }}>
-              <div className="module-header">
-                <span className="module-status">✔️ Пройдено</span>
-                <h4>Модуль 1: Основи композиції</h4>
-              </div>
-              <div className="progress-bar-container">
-                <div className="progress-bar" style={{ '--progress': `${getProgressPercent('module-1')}%` }}></div>
-              </div>
-            </Link>
+            {modules.map((moduleId, index) => {
+              const percent = getProgressPercent(moduleId);
+              const isCompleted = percent === 100;
+              const moduleTitles = ["Основи композиції", "Студійне світло", "Комерційна ретуш"];
+              
+              let statusText = `${percent}% Пройдено`;
+              let cardClass = "in-progress";
+              
+              if (isCompleted) {
+                 statusText = "✔️ Пройдено";
+                 cardClass = "completed";
+              } else if (percent === 0) {
+                 statusText = "⏳ Ще не розпочато";
+                 cardClass = "locked";
+              }
 
-            <Link to="/lessons#module-2" className="module-card in-progress" style={{ textDecoration: 'none' }}>
-              <div className="module-header">
-                <span className="module-status"> У процесі</span>
-                <h4>Модуль 2: Студійне світло</h4>
-              </div>
-              <div className="progress-bar-container">
-                <div className="progress-bar" style={{ '--progress': `${getProgressPercent('module-2')}%` }}></div>
-              </div>
-            </Link>
-
-            <Link to="/lessons#module-3" className="module-card locked" style={{ textDecoration: 'none' }}>
-              <div className="module-header">
-                <span className="module-status"> Заблоковано</span>
-                <h4>Модуль 3: Комерційна ретуш</h4>
-              </div>
-              <div className="progress-bar-container">
-                <div className="progress-bar" style={{ '--progress': `${getProgressPercent('module-3')}%` }}></div>
-              </div>
-            </Link>
+              return (
+                <Link to={`/lessons#${moduleId}`} className={`module-card ${cardClass}`} style={{ textDecoration: 'none' }} key={moduleId}>
+                  <div className="module-header">
+                    <span className="module-status">{statusText}</span>
+                    <h4>Модуль {index + 1}: {moduleTitles[index]}</h4>
+                  </div>
+                  <div className="progress-bar-container">
+                    <div className="progress-bar" style={{ '--progress': `${percent}%` }}></div>
+                  </div>
+                </Link>
+              );
+            })}
           </section>
         </div>
       </main>

@@ -21,15 +21,14 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
           className="upload-btn" 
           style={{ 
             marginTop: '15px', 
-            background: isDone ? '#4CAF50' : '#2B2B2B',
-            color: '#fff',
+            background: isDone ? 'transparent' : '#2B2B2B',
+            color: isDone ? '#4CAF50' : '#fff',
             border: isDone ? '1px solid #4CAF50' : '1px solid #999',
-            cursor: isDone ? 'default' : 'pointer'
+            cursor: 'pointer'
           }}
           onClick={onToggleDone}
-          disabled={isDone}
         >
-          {isDone ? 'Пройдено' : 'Відмітити як пройдений'}
+          {isDone ? 'Пройдено (Скасувати)' : 'Відмітити як пройдений'}
         </button>
       </div>
     </div>
@@ -39,42 +38,31 @@ const LessonCard = ({ title, duration, description, videoSrc, isDone, onToggleDo
 const LessonsPage = () => {
   const [openModule, setOpenModule] = useState('module-1');
   const [completedLessons, setCompletedLessons] = useState({});
-  const [user, setUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
   const [lessonsFromDB, setLessonsFromDB] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setUser(true);
-    } else {
-      setUser(null);
-    }
-    setLoadingAuth(false);
 
     fetch(`${import.meta.env.BASE_URL}data.json`)
       .then(res => res.json())
-      .then(data => {
-        setLessonsFromDB(data.lessons || []);
-      })
+      .then(data => setLessonsFromDB(data.lessons || []))
       .catch(err => console.error('Помилка:', err));
 
-    if (token) {
-      fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      .then(res => res.json())
-      .then(passedData => {
-        const passedMap = {};
-        if (Array.isArray(passedData)) {
-          passedData.forEach(item => {
-            passedMap[item.lessonId] = true;
-          });
-        }
-        setCompletedLessons(passedMap);
-      })
-      .catch(err => console.error(err));
-    }
+    // пройдені уроки цього користувача
+    fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(passedData => {
+      const passedMap = {};
+      if (Array.isArray(passedData)) {
+        passedData.forEach(item => {
+          passedMap[item.lessonId] = true;
+        });
+      }
+      setCompletedLessons(passedMap);
+    })
+    .catch(err => console.error(err));
   }, []);
 
   const toggleModule = (moduleName) => {
@@ -82,27 +70,34 @@ const LessonsPage = () => {
   };
 
   const toggleLessonDone = async (lesson) => {
-    const token = localStorage.getItem('token');
-    if (!token || completedLessons[lesson.id]) return;
+    const token = localStorage.getItem('token'); //токен для POST/DELETE запиту
+    
+    const isDone = completedLessons[lesson.id];
+    const method = isDone ? 'DELETE' : 'POST';
+    const url = isDone 
+        ? `https://web-lr-1.onrender.com/api/lessons/passed/${lesson.id}` 
+        : 'https://web-lr-1.onrender.com/api/lessons/passed';
 
     try {
-      const response = await fetch('https://web-lr-1.onrender.com/api/lessons/passed', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
+        body: isDone ? null : JSON.stringify({
           lessonId: String(lesson.id),
           title: lesson.title
         })
       });
 
       if (response.ok) {
-        setCompletedLessons(prev => ({
-          ...prev,
-          [lesson.id]: true
-        }));
+        setCompletedLessons(prev => {
+          const next = { ...prev };
+          if (isDone) delete next[lesson.id];
+          else next[lesson.id] = true;
+          return next;
+        });
       }
     } catch (error) {
       console.error(error);
@@ -116,25 +111,6 @@ const LessonsPage = () => {
     "4. Психологія роботи з моделлю",
     "5. Формування портфоліо"
   ];
-
-  if (loadingAuth) {
-    return (
-      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <p style={{ color: '#888' }}>Перевірка доступу...</p>
-      </main>
-    );
-  }
-
-  if (!user) {
-    return (
-      <main className="lessons-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
-        <p style={{ marginTop: '20px', color: '#888' }}>
-          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати уроки.
-        </p>
-      </main>
-    );
-  }
 
   return (
     <main className="lessons-main">
@@ -151,71 +127,37 @@ const LessonsPage = () => {
           </ul>
         </div>
 
-        <section className="module-section" id="module-1">
-          <h2 
-            className={`module-title accordion-btn ${openModule === 'module-1' ? 'active' : ''}`}
-            onClick={() => toggleModule('module-1')}
-          >
-            Модуль 1: Основи композиції
-          </h2>
-          
-          <div className={`lessons-grid accordion-content ${openModule === 'module-1' ? 'open' : ''}`}>
-            {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').length > 0 ? (
-              lessonsFromDB.filter(lesson => lesson.moduleId === 'module-1').map((lesson) => (
-                <LessonCard 
-                  key={lesson.id}
-                  title={lesson.title}
-                  duration={lesson.duration}
-                  description={lesson.description}
-                  videoSrc={lesson.videoSrc}
-                  isDone={completedLessons[lesson.id]}
-                  onToggleDone={() => toggleLessonDone(lesson)}
-                />
-              ))
-            ) : (
-              <p style={{color: '#888'}}>Завантаження уроків...</p>
-            )}
-          </div>
-        </section>
-
-        <section className="module-section" id="module-2">
-          <h2 
-            className={`module-title accordion-btn ${openModule === 'module-2' ? 'active' : ''}`}
-            onClick={() => toggleModule('module-2')}
-          >
-            Модуль 2: Студійне світло
-          </h2>
-          <div className={`lessons-grid accordion-content ${openModule === 'module-2' ? 'open' : ''}`}>
-             {lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').length > 0 ? (
-              lessonsFromDB.filter(lesson => lesson.moduleId === 'module-2').map((lesson) => (
-                <LessonCard 
-                  key={lesson.id}
-                  title={lesson.title}
-                  duration={lesson.duration}
-                  description={lesson.description}
-                  videoSrc={lesson.videoSrc}
-                  isDone={completedLessons[lesson.id]}
-                  onToggleDone={() => toggleLessonDone(lesson)}
-                />
-              ))
-            ) : (
-              <p style={{color: '#888'}}>Завантаження уроків...</p>
-            )}
-          </div>
-        </section>
-
-        <section className="module-section" id="module-3">
-          <h2 
-            className={`module-title accordion-btn ${openModule === 'module-3' ? 'active' : ''}`}
-            onClick={() => toggleModule('module-3')}
-          >
-            Модуль 3: Комерційна ретуш
-          </h2>
-          <p className={`locked-text accordion-content ${openModule === 'module-3' ? 'open' : ''}`}> 
-            Цей модуль відкриється після проходження попередніх.
-          </p>
-        </section>
-
+        {['module-1', 'module-2', 'module-3'].map((moduleId, index) => {
+          const moduleTitles = ["Основи композиції", "Студійне світло", "Комерційна ретуш"];
+          return (
+            <section className="module-section" id={moduleId} key={moduleId}>
+              <h2 
+                className={`module-title accordion-btn ${openModule === moduleId ? 'active' : ''}`}
+                onClick={() => toggleModule(moduleId)}
+              >
+                Модуль {index + 1}: {moduleTitles[index]}
+              </h2>
+              
+              <div className={`lessons-grid accordion-content ${openModule === moduleId ? 'open' : ''}`}>
+                {lessonsFromDB.filter(lesson => lesson.moduleId === moduleId).length > 0 ? (
+                  lessonsFromDB.filter(lesson => lesson.moduleId === moduleId).map((lesson) => (
+                    <LessonCard 
+                      key={lesson.id}
+                      title={lesson.title}
+                      duration={lesson.duration}
+                      description={lesson.description}
+                      videoSrc={lesson.videoSrc}
+                      isDone={completedLessons[lesson.id]}
+                      onToggleDone={() => toggleLessonDone(lesson)}
+                    />
+                  ))
+                ) : (
+                  <p style={{color: '#888'}}>Завантаження уроків...</p>
+                )}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </main>
   );
