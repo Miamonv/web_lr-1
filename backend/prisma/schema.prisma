@@ -1,22 +1,22 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
 
-// таблиця користувачів
-model User {
-  id       Int      @id @default(autoincrement())
-  name     String?
-  email    String   @unique
-  password String
+// таблиця картинок користувача
+model GalleryItem {
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  url      String
+  category String
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 // таблиця для пройдених уроків
@@ -26,4 +26,15 @@ model PassedLesson {
   lessonId  String
   title     String
   passedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id]) // <--- ДОДАНО ЦЕЙ РЯДОК
+}
+
+// таблиця користувачів
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String?
+  email         String         @unique
+  password      String
+  passedLessons PassedLesson[]
+  galleryItems  GalleryItem[]
 }
