@@ -4,62 +4,76 @@ const GalleryPage = () => {
   const [photos, setPhotos] = useState([]);
   const [filter, setFilter] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('landscape');
-  const [user, setUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setUser(true);
-    } else {
-      setUser(null);
-    }
-    setLoadingAuth(false);
 
-    fetch(`${import.meta.env.BASE_URL}data.json`)
-      .then(res => res.json())
-      .then(data => setPhotos(data.gallery))
-      .catch(err => console.error('Помилка:', err));
+    const fetchStaticPhotos = fetch(`${import.meta.env.BASE_URL}data.json`).then(res => res.json());
+    
+    const fetchUserPhotos = fetch('https://web-lr-1.onrender.com/api/gallery', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    }).then(res => res.json());
+
+    Promise.all([fetchStaticPhotos, fetchUserPhotos])
+      .then(([staticData, userData]) => {
+        // позначка isUser, щоб знати, які картинки можна видаляти
+        const userPhotosFormatted = userData.map(p => ({ ...p, isUser: true, likes: 0 }));
+        setPhotos([...userPhotosFormatted, ...(staticData.gallery || [])]);
+      })
+      .catch(err => console.error('Помилка завантаження:', err));
   }, []);
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    const token = localStorage.getItem('token');
+    
+    if (file && token) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const newPhoto = {
-          url: event.target.result,
-          category: selectedCategory,
-          likes: 0
-        };
-        setPhotos([newPhoto, ...photos]);
+      reader.onload = async (event) => {
+        const base64Url = event.target.result;
+        
+        try {
+          const res = await fetch('https://web-lr-1.onrender.com/api/gallery', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify({ url: base64Url, category: selectedCategory })
+          });
+          
+          if (res.ok) {
+            const newItem = await res.json();
+            setPhotos([{ ...newItem, isUser: true, likes: 0 }, ...photos]);
+          }
+        } catch (err) {
+          console.error("Помилка збереження на сервер", err);
+        }
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const res = await fetch(`https://web-lr-1.onrender.com/api/gallery/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setPhotos(photos.filter(p => p.id !== id));
+      }
+    } catch (err) {
+      console.error("Помилка видалення", err);
     }
   };
 
   const filteredPhotos = filter === 'all' 
     ? photos 
     : photos.filter(p => p.category === filter);
-
-  if (loadingAuth) {
-    return (
-      <main style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <p style={{ color: '#888' }}>Перевірка доступу...</p>
-      </main>
-    );
-  }
-
-  if (!user) {
-    return (
-      <main className="gallery-main" style={{ textAlign: 'center', paddingTop: '150px', minHeight: '60vh' }}>
-        <h2 style={{ color: '#fff' }}>Доступ закрито</h2>
-        <p style={{ marginTop: '20px', color: '#888' }}>
-          Будь ласка, увійдіть у свій акаунт через меню зверху, щоб переглядати та додавати роботи в галерею.
-        </p>
-      </main>
-    );
-  }
 
   return (
     <>
@@ -104,9 +118,19 @@ const GalleryPage = () => {
             
             <div className="photo-grid">
               {filteredPhotos.map((photo, index) => (
-                <div className="photo-item" data-category={photo.category} key={index}>
+                <div className="photo-item" data-category={photo.category} key={photo.id || index}>
                   <img src={photo.url} alt="Фото" />
-                  <div className="photo-overlay"><span>❤️ {photo.likes}</span></div>
+                  <div className="photo-overlay">
+                    <span>❤️ {photo.likes}</span>
+                    {photo.isUser && (
+                      <button 
+                        onClick={() => handleDelete(photo.id)} 
+                        style={{ marginLeft: '10px', background: 'red', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
+                      >
+                        ❌
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

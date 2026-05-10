@@ -1,29 +1,23 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from '../firebase';
+import { NavLink } from 'react-router-dom';
 import LoginModal from './LoginModal';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // чи авторизований користувач
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-    return () => unsubscribe(); 
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      console.log("Ви успішно вийшли!");
-    }).catch((error) => {
-      console.error("Помилка виходу:", error);
-    });
+    localStorage.removeItem('token');
+    window.location.reload();
   };
 
   return (
@@ -40,10 +34,11 @@ const Header = () => {
           <NavLink to="/gallery" onClick={() => setIsMenuOpen(false)}>Галерея</NavLink>
           <NavLink to="/progress" onClick={() => setIsMenuOpen(false)}>Мій прогрес</NavLink>
 
-          {currentUser ? (
+          {isLoggedIn ? (
              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginLeft: '20px' }}>
-                <span style={{ color: '#F28B22', fontSize: '14px' }}>{currentUser.email}</span>
-                <button onClick={handleLogout} className="upload-btn" style={{ padding: '8px 15px', fontSize: '14px' }}>Вийти</button>
+                <button onClick={handleLogout} className="upload-btn" style={{ padding: '8px 15px', fontSize: '14px' }}>
+                  Вийти
+                </button>
              </div>
           ) : (
              <button 

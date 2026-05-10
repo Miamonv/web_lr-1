@@ -107,6 +107,37 @@ app.post('/api/lessons/passed', authenticate, async (req, res, next) => {
   }
 });
 
+// видалення статусу пройденого уроку
+app.delete('/api/lessons/passed/:lessonId', authenticate, async (req, res) => {
+  try {
+    await prisma.passedLesson.deleteMany({
+      where: { userId: req.userId, lessonId: req.params.lessonId }
+    });
+    res.json({ message: 'Статус скинуто' });
+  } catch (err) { res.status(500).json(err); }
+});
+
+// GET для отримання галереї користувача
+app.get('/api/gallery', authenticate, async (req, res) => {
+  const items = await prisma.galleryItem.findMany({ where: { userId: req.userId } });
+  res.json(items);
+});
+
+// POST для додавання нового елемента в галерею
+app.post('/api/gallery', authenticate, async (req, res) => {
+  const { url, category } = req.body;
+  const item = await prisma.galleryItem.create({
+    data: { userId: req.userId, url, category }
+  });
+  res.status(201).json(item);
+});
+
+// DELETE для видалення елемента з галереї
+app.delete('/api/gallery/:id', authenticate, async (req, res) => {
+  await prisma.galleryItem.delete({ where: { id: parseInt(req.params.id), userId: req.userId } });
+  res.json({ message: 'Видалено' });
+});
+
 // обробник помилок
 app.use((err, req, res, next) => {
   console.error(err);
